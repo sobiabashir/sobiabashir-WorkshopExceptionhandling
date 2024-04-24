@@ -2,10 +2,10 @@ package se.lexicon.exceptions.workshop.data_access;
 
 import java.util.List;
 import java.util.Random;
-
 import se.lexicon.exceptions.workshop.domain.Gender;
 import se.lexicon.exceptions.workshop.domain.Person;
 import se.lexicon.exceptions.workshop.fileIO.CSVReader_Writer;
+import se.lexicon.exceptions.workshop.Exception.DuplicateNamesException;
 
 public class NameService {
 	
@@ -61,9 +61,16 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addFemaleFirstName(String name){
-	    	femaleFirstNames.add(name);
-	    	CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+	    public void addFemaleFirstName(String name) throws DuplicateNamesException {
+			for (String n:femaleFirstNames) {
+				if (n.equalsIgnoreCase(name)) {
+					throw new DuplicateNamesException(name);
+				}
+
+			}
+			femaleFirstNames.add(name);
+			CSVReader_Writer.saveFemaleNames(femaleFirstNames);
+
 	    		
 	    }
 
@@ -73,9 +80,15 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param name
 	     */
-	    public void addMaleFirstName(String name){
-	    	maleFirstNames.add(name);
-	        CSVReader_Writer.saveMaleNames(maleFirstNames);
+	    public void addMaleFirstName(String name)throws DuplicateNamesException {
+			for (String n : maleFirstNames) {
+				 if (n.equalsIgnoreCase(name)) {
+					throw new DuplicateNamesException(name);
+				}
+			}
+			maleFirstNames.add(name);
+			CSVReader_Writer.saveMaleNames(maleFirstNames);
+
 	    }
 
 	    /**
@@ -84,7 +97,12 @@ public class NameService {
 	     * DuplicateNameException.
 	     * @param lastName
 	     */
-	    public void addLastName(String lastName){
+	    public void addLastName(String lastName) throws DuplicateNamesException {
+			for (String n : lastNames) {
+				if (n.equalsIgnoreCase(lastName)) {
+                    throw new DuplicateNamesException(lastName);
+                }
+			}
 	    	lastNames.add(lastName);
 	        CSVReader_Writer.saveLastNames(lastNames);
 	    }
